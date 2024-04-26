@@ -1,5 +1,6 @@
 #!/bin/bash
 
-rm wintile@nowsci.com.zip
+uuid=wintile-beyond@GrylledCheez.xyz
+rm ${uuid}.zip
 glib-compile-schemas schemas/
-zip -r9 wintile@nowsci.com.zip extension.js keybindings.js metadata.json prefs.js settings.ui schemas
+zip -r9 ${uuid}.zip extension.js keybindings.js metadata.json prefs.js settings.ui schemas
