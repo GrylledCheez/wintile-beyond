@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schemalist>
-  <schema id="org.gnome.shell.extensions.wintile" path="/org/gnome/shell/extensions/wintile/">
+  <schema id="org.gnome.shell.extensions.wintile-beyond" path="/org/gnome/shell/extensions/wintile-beyond/">
     <key name="cols" type="i">
       <default>2</default>
       <summary>Number of columns</summary>
