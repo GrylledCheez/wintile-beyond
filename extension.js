@@ -1,18 +1,5 @@
 /* global global */
 
-/* BEGIN NON-G45 */
-// const Meta = imports.gi.Meta;
-// const Main = imports.ui.main;
-// const Gio = imports.gi.Gio;
-// const GLib = imports.gi.GLib;
-// const ExtensionUtils = imports.misc.extensionUtils;
-// const Clutter = imports.gi.Clutter;
-// const St = imports.gi.St;
-// const Config = imports.misc.config;
-// const SHELL_VERSION = parseFloat(Config.PACKAGE_VERSION);
-/* END NON-G45 */
-
-/* BEGIN G45 */
 import Meta from 'gi://Meta';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import Gio from 'gi://Gio';
@@ -23,7 +10,6 @@ import St from 'gi://St';
 import {PACKAGE_VERSION} from 'resource:///org/gnome/shell/misc/config.js';
 import KeyBindingsManager from './keybindings.js';
 const SHELL_VERSION = parseFloat(PACKAGE_VERSION);
-/* END G45 */
 
 let onWindowGrabBegin, onWindowGrabEnd;
 let requestMoveTimer, checkForMoveTimer, windowGrabBeginTimer, windowGrabEndTimer, checkIfNearGridTimer, keyManagerTimer;
@@ -82,16 +68,6 @@ function updateSettings() {
     config.debug = gsettings.get_value('debug').deep_unpack();
     _log(JSON.stringify(config));
 }
-
-/* BEGIN NON-G45 */
-// const wintile = {
-//     extdatadir: imports.misc.extensionUtils.getCurrentExtension().path,
-//     shell_version: parseInt(Config.PACKAGE_VERSION.split('.')[1], 10),
-// };
-// imports.searchPath.unshift(wintile.extdatadir);
-
-// const KeyBindings = imports.keybindings;
-/* END NON-G45 */
 
 let keyManager = null;
 var oldbindings = {
@@ -1073,23 +1049,12 @@ function getMonitorInfo(monitorIndex) {
  *
  */
 
-/* BEGIN NON-G45 */
-// class WintileExtension {
-/* END NON-G45 */
-
-/* BEGIN G45 */
 export default class WintileExtension extends Extension {
-/* END G45 */
     enable() {
         _log('enable) Keymanager is being defined');
 
-        /* BEGIN G45 */
         keyManager = new KeyBindingsManager();
-        /* END G45 */
 
-        /* BEGIN NON-G45 */
-        // keyManager = new KeyBindings.Manager();
-        /* END NON-G45 */
         let desktopSettings = new Gio.Settings({schema_id: 'org.gnome.desktop.wm.keybindings'});
         let mutterKeybindingSettings = new Gio.Settings({schema_id: 'org.gnome.mutter.keybindings'});
         let mutterSettings = new Gio.Settings({schema_id: 'org.gnome.mutter'});
@@ -1155,15 +1120,12 @@ export default class WintileExtension extends Extension {
             style_class: 'tile-preview',
             visible: false,
         });
-        Main.uiGroup.add_actor(preview);
+        if (SHELL_VERSION < 46.0)
+            Main.uiGroup.add_actor(preview);
+        else
+            Main.uiGroup.add_child(preview);
 
-        /* BEGIN G45 */
         gsettings = this.getSettings();
-        /* END G45 */
-
-        /* BEGIN NON-G45 */
-        // gsettings = ExtensionUtils.getSettings();
-        /* END NON-G45 */
         updateSettings();
 
         // Watch the gsettings for changes
@@ -1210,13 +1172,3 @@ export default class WintileExtension extends Extension {
         dragStart = null;
     }
 }
-
-/* BEGIN NON-G45 */
-// /**
-//  *
-//  * @param {object} _meta = standard meta object
-//  */
-// function init(_meta) {
-//     return new WintileExtension();
-// }
-/* END NON-G45 */
