@@ -69,8 +69,8 @@ https://extensions.gnome.org/extension/1723/wintile-windows-10-window-tiling-for
 1. unzip the file
 1. cd into the directory it creates
 1. run `./build.sh`
-1. run `unzip -d wintile@nowsci.com wintile@nowsci.com.zip`
-1. run `cp -r wintile@nowsci.com ~/.local/share/gnome-shell/extensions/`
+1. run `unzip -d wintile-beyond@GrylledCheez.xyz wintile-beyond@GrylledCheez.xyz.zip`
+1. run `cp -r wintile-beyond@GrylledCheez.xyz ~/.local/share/gnome-shell/extensions/`
 1. restart your session
 
 Wayland users need to reboot to enable the extension.
