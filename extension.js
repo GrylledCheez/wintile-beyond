@@ -20,7 +20,7 @@ let gsettings;
 
 
 /* View logs with
-journalctl -qf | grep -i -e Wintile -e 'js error'
+journalctl -qf | grep -i -e Wintile-Beyond -e 'js error'
 */
 
 /**
@@ -28,7 +28,7 @@ journalctl -qf | grep -i -e Wintile -e 'js error'
  */
 function _log(message) {
     if (config.debug)
-        log('[WinTile]', message);
+        log('[Wintile-Beyond]', message);
 }
 
 let config = {
