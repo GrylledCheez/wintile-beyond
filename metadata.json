@@ -6,6 +6,6 @@
 	"settings-schema":"org.gnome.shell.extensions.wintile-beyond",
 	"shell-version": [
                 "45",
-		"46"
+                "46"
 	]
 }
