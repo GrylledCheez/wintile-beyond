@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Fmstrat/wintile.git"
+    "url": "git+https://github.com/GrylledCheez/wintile-beyond.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Fmstrat/wintile/issues"
+    "url": "https://github.com/GrylledCheez/wintile-beyond/issues"
   },
-  "homepage": "https://github.com/Fmstrat/wintile#readme",
+  "homepage": "https://github.com/GrylledCheez/wintile-beyond#readme",
   "devDependencies": {
     "eslint": "^8.57.0",
     "eslint-plugin-jsdoc": "^45.0.0"
