@@ -1,42 +1,11 @@
 'use strict';
 
-/* BEGIN NON-G45 */
-// const Gio = imports.gi.Gio;
-// const Gtk = imports.gi.Gtk;
-
-// const ExtensionUtils = imports.misc.extensionUtils;
-// const Me = ExtensionUtils.getCurrentExtension();
-
-// const Gettext = imports.gettext;
-// const _ = Gettext.domain('wintile').gettext;
-
-// const gsettings = ExtensionUtils.getSettings();
-
-// /**
-//  *
-//  */
-// function init() {
-//     // empty
-// }
-/* END NON-G45 */
-
-/* BEGIN G45 */
 import Gio from 'gi://Gio';
 import Gtk from 'gi://Gtk';
 import {ExtensionPreferences} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 
 export default class WinTileExtensionPreferences extends ExtensionPreferences {
-/* END G45 */
-    /**
-     *
-     * @param {object} window - Don't worry about this. Gnome handles it for you.
-     */
-    /* BEGIN G45 */
     fillPreferencesWindow(window) {
-    /* END G45 */
-    /* BEGIN NON-G45 */
-    // function fillPreferencesWindow(window) {
-    /* END NON-G45 */
         let builder = Gtk.Builder.new();
         builder.add_from_file(`${this.path}/settings.ui`);
         let gridPage = builder.get_object('gridPage');
@@ -44,9 +13,7 @@ export default class WinTileExtensionPreferences extends ExtensionPreferences {
         window.add(gridPage);
         window.add(behaviorPage);
 
-        /* BEGIN G45 */
         let gsettings = this.getSettings();
-        /* END G45 */
         const bindSettings = (key, input) => {
             key.value = gsettings.get_value(input).deep_unpack();
             gsettings.bind(input, key, 'active', Gio.SettingsBindFlags.DEFAULT);
