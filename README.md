@@ -1,9 +1,14 @@
-# WinTile: Windows 10 window tiling for GNOME
-WinTile is a hotkey driven window tiling system for GNOME that imitates the
+# Differences from the original
+This is a continuation of the work started by Ben Curtis @FmStrat.  Ben created the original extension, but
+GrylledCheez has done considerable code revision and feature additions.  Because of the frustrating release
+schedule, this repo will now be strictly separate and be released independently under the name "Wintile-Beyond"
+
+# WinTile-Beyond: Windows 10 window tiling for GNOME
+WinTile-Beyond is a hotkey driven window tiling system for GNOME that imitates the
 standard `Win-Arrow` keys of Windows 10, allowing you to maximize, maximize
 to sides, or 1/4 sized to corner a window using just `<Super>`+`<Arrows>`.
 
-WinTile also supports:
+WinTile-Beyond also supports:
 - 1-5 columns for standard or ultrawide monitors
 - 1-5 rows for standard or ultrawide monitors
 - Mouse preview and snapping for placing tiles
@@ -57,15 +62,15 @@ There are a few zones to be aware of
 
 ### Gnome-tweaks
 1. Open `Extension` settings in [Gnome Tweaks](https://gitlab.gnome.org/GNOME/gnome-tweaks)
-1. locate `Wintile` and click on the cogwheel button to bring up the configuration dialog.
+1. locate `WinTile-Beyond` and click on the cogwheel button to bring up the configuration dialog.
 
 
 # Installation
 ### GNOME Extension site:
-https://extensions.gnome.org/extension/1723/wintile-windows-10-window-tiling-for-gnome/
+TBD until it gets released by https://extensions.gnome.org
 
 ### Building from source
-1. Download source code from the [Master](https://github.com/Fmstrat/wintile/archive/refs/heads/master.zip) or [develop](https://github.com/Fmstrat/wintile/archive/refs/heads/develop.zip) branches.
+1. Download source code from the  [Master](https://github.com/GrylledCheez/wintile-beyond/archive/refs/heads/master.zip) or [develop](https://github.com/GrylledCheez/wintile-beyond/archive/refs/heads/develop.zip) branches.
 1. unzip the file
 1. cd into the directory it creates
 1. run `./build.sh`
@@ -79,7 +84,7 @@ Gnome users can press `<Alt>`+`<F2>` and run `r` from the prompt. **(IT WILL NOT
 
 ### Debugging
 If you're having issues, please attach some debug logs to your issue. 
-Note: debugging must be enabled in WinTile settings
+Note: debugging must be enabled in WinTile-Beyond settings
 
 ```bash
 journalctl -qf | grep -i -e wintile -e 'js error'
