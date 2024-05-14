@@ -28,7 +28,7 @@ journalctl -qf | grep -i -e Wintile-Beyond -e 'js error'
  */
 function _log(message) {
     if (config.debug)
-        log('[Wintile-Beyond]', message);
+        console.log('[Wintile-Beyond]', message);
 }
 
 let config = {
@@ -1049,7 +1049,7 @@ function getMonitorInfo(monitorIndex) {
  *
  */
 
-export default class WintileExtension extends Extension {
+export default class WintileBeyondExtension extends Extension {
     enable() {
         _log('enable) Keymanager is being defined');
 
@@ -1100,19 +1100,11 @@ export default class WintileExtension extends Extension {
             });
         });
 
-        // Since GNOME 40 the metaDisplay argument isn't passed anymore to these callbacks.
-        // We "translate" the parameters here so that things work on both GNOME 3 and 40.
-        onWindowGrabBegin = global.display.connect('grab-op-begin', (metaDisplay, metaScreen, metaWindow, metaGrabOp, _gpointer) => {
-            if (SHELL_VERSION >= 40)
-                windowGrabBegin(metaScreen, metaWindow);
-            else
-                windowGrabBegin(metaWindow, metaGrabOp);
+        onWindowGrabBegin = global.display.connect('grab-op-begin', (metaDisplay, metaScreen, metaWindow, _metaGrabOp, _gpointer) => {
+            windowGrabBegin(metaScreen, metaWindow);
         });
-        onWindowGrabEnd = global.display.connect('grab-op-end', (metaDisplay, metaScreen, metaWindow, metaGrabOp, _gpointer) => {
-            if (SHELL_VERSION >= 40)
-                windowGrabEnd(metaScreen, metaWindow);
-            else
-                windowGrabEnd(metaWindow, metaGrabOp);
+        onWindowGrabEnd = global.display.connect('grab-op-end', (metaDisplay, metaScreen, metaWindow, _metaGrabOp, _gpointer) => {
+            windowGrabEnd(metaScreen, metaWindow);
         });
 
         // Create a new gsettings object

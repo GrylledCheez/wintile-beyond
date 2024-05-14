@@ -61,13 +61,13 @@ There are a few zones to be aware of
 1. Click on the "Configure this extension" button.
 
 ### Gnome-tweaks
-1. Open `Extension` settings in [Gnome Tweaks](https://gitlab.gnome.org/GNOME/gnome-tweaks)
+1. Open `Extension` settings in [Gnome Tweaks] (https://gitlab.gnome.org/GNOME/gnome-tweaks)
 1. locate `WinTile-Beyond` and click on the cogwheel button to bring up the configuration dialog.
 
 
 # Installation
 ### GNOME Extension site:
-TBD until it gets released by https://extensions.gnome.org
+https://extensions.gnome.org/extension/6970/wintile-beyond/
 
 ### Building from source
 1. Download source code from the  [Master](https://github.com/GrylledCheez/wintile-beyond/archive/refs/heads/master.zip) or [develop](https://github.com/GrylledCheez/wintile-beyond/archive/refs/heads/develop.zip) branches.
