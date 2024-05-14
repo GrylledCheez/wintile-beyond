@@ -4,7 +4,7 @@ import Gio from 'gi://Gio';
 import Gtk from 'gi://Gtk';
 import {ExtensionPreferences} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 
-export default class WinTileExtensionPreferences extends ExtensionPreferences {
+export default class WinTileBeyondExtensionPreferences extends ExtensionPreferences {
     fillPreferencesWindow(window) {
         let builder = Gtk.Builder.new();
         builder.add_from_file(`${this.path}/settings.ui`);
