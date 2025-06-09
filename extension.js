@@ -17,7 +17,13 @@ let preview;
 let windowMoving = false;
 let dragStart = null;
 let gsettings;
-
+let touchX;
+let touchY;
+let touchTime;
+let touchWindowX;
+let touchWindowY;
+let touchDrag;
+const maxDragTimeDiff = 200000; // max time between TOUCH_BEGIN and grab-op-begin in us
 
 /* View logs with
 journalctl -qf | grep -i -e Wintile-Beyond -e 'js error'
@@ -269,7 +275,7 @@ function restoreApp(app, move = true) {
     _log(`restoreApp) app.wintile: ${JSON.stringify(app.wintile)}`);
     unMaximizeIfMaximized(app);
 
-    const [mouseX, mouseY] = global.get_pointer();
+    const [mouseX, mouseY] = getTouchMousePosition();
     if (move) {
         var space = app.get_work_area_current_monitor();
         if (app.wintile.origFrame.x + app.wintile.origFrame.width > space.x + space.width)
@@ -582,7 +588,7 @@ function checkForMove(x, y, app) {
     if (!windowMoving)
         return;
     checkForMoveTimer = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 10, () => {
-        let [xAfter, yAfter] = global.get_pointer();
+        let [xAfter, yAfter] = getTouchMousePosition();
         if (x !== xAfter || y !== yAfter)
             restoreApp(app, false);
         else
@@ -617,7 +623,7 @@ function isResize(mask) {
  * @param {object} metaGrabOp - type of window being grabbed
  */
 function windowGrabBegin(metaWindow, metaGrabOp) {
-    let [mouseX, mouseY] = global.get_pointer();
+    let [mouseX, mouseY] = getTouchMousePosition();
     if (isResize(metaGrabOp))
         return false;
 
@@ -625,6 +631,10 @@ function windowGrabBegin(metaWindow, metaGrabOp) {
     let window = app.get_frame_rect();
     _log(`windowGrabBegin) mouse - mouseX:${mouseX} mouseY:${mouseY}`);
     _log(`windowGrabBegin) window - x:${window.x} y:${window.y} w:${window.width} h:${window.height}`);
+
+    // save window position in beginning of a grab
+    touchWindowX = window.x;
+    touchWindowY = window.y;
 
     if (metaWindow && metaGrabOp !== Meta.GrabOp.WAYLAND_POPUP) {
         windowMoving = true;
@@ -677,6 +687,12 @@ function windowGrabEnd(metaWindow, metaGrabOp) {
         }
     }
     dragStart = null;
+    touchX = null;
+    touchY = null;
+    touchTime = null;
+    touchWindowX = null;
+    touchWindowY = null;
+    touchDrag = null;
 }
 
 /**
@@ -721,7 +737,7 @@ function showPreview(loc, spaceX, spaceY, colWidth, rowHeight) {
     if (preview.loc && JSON.stringify(preview.loc) === JSON.stringify(loc))
         return;
 
-    let [mouseX, mouseY] = global.get_pointer();
+    let [mouseX, mouseY] = getTouchMousePosition();
     preview.x = mouseX;
     preview.y = mouseY;
     preview.visible = true;
@@ -759,7 +775,7 @@ function checkIfNearGrid(app) {
     if (!windowMoving)
         return;
 
-    let [mouseX, mouseY, mask] = global.get_pointer();
+    let [mouseX, mouseY, mask] = getTouchMousePosition();
     let ctrlPressed = mask & Clutter.ModifierType.CONTROL_MASK;
     let superPressed = mask & Clutter.ModifierType.MOD4_MASK; // windows key
     var close = false;
@@ -1047,6 +1063,39 @@ function getMonitorInfo(monitorIndex) {
 
 /**
  *
+ * @param {number} a - time end
+ * @param {number} b - time start
+ */
+function diffTime(a, b) {
+    const MAX = 2 ** 32;
+    return a >= b ? a - b : MAX - b + a;
+}
+
+/**
+ heuristics to determine if it was touch grab or not
+ returning x, y and modifier keys mask
+ */
+function getTouchMousePosition() {
+    let [positionX, positionY, mask] = global.get_pointer();
+
+    const now = GLib.get_monotonic_time();
+    const timeDiff = diffTime(now, touchTime);
+    if (touchX !== null && touchTime !== null && timeDiff < maxDragTimeDiff && touchDrag === null)
+        touchDrag = true;
+
+    if (touchDrag !== null) {
+        var app = global.display.focus_window;
+        let window = app.get_frame_rect();
+        positionX = Math.floor(touchX + (window.x - touchWindowX));
+        positionY = Math.floor(touchY + (window.y - touchWindowY));
+    }
+    _log(`positionX ${positionX} positionY ${positionY} timeDiff ${timeDiff} now ${now} touchTime ${touchTime}`);
+
+    return [positionX, positionY, mask];
+}
+
+/**
+ *
  */
 
 export default class WintileBeyondExtension extends Extension {
@@ -1122,6 +1171,19 @@ export default class WintileBeyondExtension extends Extension {
 
         // Watch the gsettings for changes
         gsettings.connect('changed', updateSettings.bind());
+
+        // Connect to the 'touch-event' signal on the main stage
+        global.stage.connect('captured-event', (actor, event) => {
+            if (event.type() === Clutter.EventType.TOUCH_BEGIN) {
+                let [x, y] = event.get_coords();
+                _log(`Event TOUCH_BEGIN (${event.type()}): x=${x}, y=${y}`);
+                touchX = x;
+                touchY = y;
+                touchTime = GLib.get_monotonic_time();
+            }
+
+            return Clutter.EVENT_PROPAGATE;
+        });
     }
 
     /**
