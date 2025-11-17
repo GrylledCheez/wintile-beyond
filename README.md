@@ -74,7 +74,7 @@ https://extensions.gnome.org/extension/6970/wintile-beyond/
 1. unzip the file
 1. cd into the directory it creates
 1. run `./build.sh`
-1. cd into build directory
+1. run `cd build/`
 1. run `unzip -d wintile-beyond@GrylledCheez.xyz wintile-beyond@GrylledCheez.xyz.zip`
 1. run `cp -r wintile-beyond@GrylledCheez.xyz ~/.local/share/gnome-shell/extensions/`
 1. restart your session
