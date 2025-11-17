@@ -74,11 +74,12 @@ https://extensions.gnome.org/extension/6970/wintile-beyond/
 1. unzip the file
 1. cd into the directory it creates
 1. run `./build.sh`
+1. cd into build directory
 1. run `unzip -d wintile-beyond@GrylledCheez.xyz wintile-beyond@GrylledCheez.xyz.zip`
 1. run `cp -r wintile-beyond@GrylledCheez.xyz ~/.local/share/gnome-shell/extensions/`
 1. restart your session
 
-Wayland users need to reboot to enable the extension.
+Wayland users need to log out of their session and log in again to enable the extension.
 
 Gnome users can press `<Alt>`+`<F2>` and run `r` from the prompt. **(IT WILL NOT WORK from a terminal)**
 
